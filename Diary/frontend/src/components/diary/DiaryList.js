@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getDiaries, deleteDiary } from "../../actions/diary";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 import { Trash, Pen } from "react-bootstrap-icons";
 
-class Diaries extends Component {
+class DiaryList extends Component {
   static propTypes = {
     diaries: PropTypes.array.isRequired,
     getDiaries: PropTypes.func.isRequired,
@@ -41,8 +41,9 @@ class Diaries extends Component {
                       <Trash />
                     </button>{" "}
                     <button className="btn  btn-sm float-right">
-                      <Link to={`/edit/${diary.id}`}><Pen /></Link>
-                      
+                      <Link to={`/edit/${diary.id}`}>
+                        <Pen />
+                      </Link>
                     </button>
                   </span>
                   {diary.body}
@@ -60,4 +61,4 @@ class Diaries extends Component {
 const mapStateToProps = (state) => ({
   diaries: state.diaries.diaries,
 });
-export default connect(mapStateToProps, { getDiaries, deleteDiary })(Diaries);
+export default connect(mapStateToProps, { getDiaries, deleteDiary })(DiaryList);

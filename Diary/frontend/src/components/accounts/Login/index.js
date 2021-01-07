@@ -23,7 +23,7 @@ class LoginForm extends Component {
 
   hiddenField = ({ type, meta: { error } }) => {
     return (
-      <div className="text " >
+      <div className="text mb-2">
         <input type={type} />
         {error && <div className="text-danger">{error}</div>}
       </div>
@@ -74,7 +74,7 @@ class LoginForm extends Component {
     );
   }
 }
-const required = (value) => (value ? undefined : "Required");
+const required = (value) => (value ? undefined : "This field is required");
 
 const minLength = (min) => (value) =>
   value && value.length < min

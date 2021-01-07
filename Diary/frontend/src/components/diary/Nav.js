@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import { logout } from "../../actions/auth";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import {  PersonCircle } from 'react-bootstrap-icons';
+import { PersonCircle } from "react-bootstrap-icons";
 class NavB extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
@@ -18,7 +18,7 @@ class NavB extends Component {
       <Nav className="mr-auto">
         <NavDropdown title="Account" id="basic-nav-dropdown">
           <NavDropdown.Item onClick={this.props.logout}>
-          <PersonCircle /> Logout
+            <PersonCircle /> Logout
           </NavDropdown.Item>
         </NavDropdown>
       </Nav>
@@ -37,10 +37,16 @@ class NavB extends Component {
     );
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand> <Link to="/">Diary</Link></Navbar.Brand>
+        <Navbar.Brand>
+          {" "}
+          <Link to="/">Diary</Link>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav " />
-        <Navbar.Collapse  id="basic-navbar-nav ">
-         <div className="ml-auto"> {isAuthenticated ? authLinks : guestLinks}</div>
+        <Navbar.Collapse id="basic-navbar-nav ">
+          <div className="ml-auto">
+            {" "}
+            {isAuthenticated ? authLinks : guestLinks}
+          </div>
         </Navbar.Collapse>
       </Navbar>
     );

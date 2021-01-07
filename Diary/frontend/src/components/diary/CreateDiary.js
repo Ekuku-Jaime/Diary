@@ -10,9 +10,8 @@ class CreateDiary extends Component {
   };
   onSubmit = (values) => {
     this.props.addDiary(values);
-    
   };
-  
+
   render() {
     return (
       <div className="md-auto mx-auto">

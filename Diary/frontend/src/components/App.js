@@ -6,8 +6,8 @@ import history from "../components/commom/history";
 import GlobalStyles from "../styles/GlobalStyles";
 import Home from "./diary/Home";
 
-import LoginForm from "./accounts/Log";
-import RegisterForm from "./accounts/Regi";
+import LoginForm from "./accounts/Login/index";
+import RegisterForm from "./accounts/SignupForm/index";
 import NavB from "../components/diary/Nav";
 
 import PrivateRoute from "./commom/PrivateRoute";

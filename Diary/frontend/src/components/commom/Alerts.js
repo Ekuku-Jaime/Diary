@@ -8,9 +8,7 @@ class Alerts extends Component {
     error: PropTypes.object.isRequired,
     message: PropTypes.object.isRequired,
   };
-  componentDidMount() {
-    this.props.alert.show("hi lesley");
-  }
+
   componentDidUpdate(prevProps) {
     const { error, alert, message } = this.props;
     if (error !== prevProps.error) {

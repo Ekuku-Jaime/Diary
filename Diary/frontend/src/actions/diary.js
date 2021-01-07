@@ -59,16 +59,14 @@ export const editDiary = (id, formValues) => (dispatch, getState) => {
         payload: response.data,
       });
       dispatch(createMessage({ diaryEdited: "Diary edited" }));
-      
+
+      setInterval(() => {
         history.push("/");
-      
-      
+      }, 1000); //after editing the diary the user will be redirected to Home after 1s
     })
     .catch((error) => {
-      // returnError(error.response.status);
-      console.log(" houve erro" + error);
+      returnError(error.response.status);
     });
-    // history.push("/");
 };
 
 export const getDiary = (id) => (dispatch, getState) => {

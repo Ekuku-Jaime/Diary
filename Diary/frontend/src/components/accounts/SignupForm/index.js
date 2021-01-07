@@ -1,138 +1,99 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Field, reduxForm } from "redux-form";
 import { register } from "../../../actions/auth";
-import { createMessage } from "../../../actions/messages";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import NavB from "../../diary/Nav"
 
-class SignupForm extends Component {
-  static propTypes = {
-    register: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
+class RegisterForm extends Component {
+  renderField = ({ input, label, type, meta: { touched, error } }) => {
+    return (
+      <div className={`field ${touched && error ? "error" : ""}`}>
+        <label className="control-label">{label}</label>
+        <input {...input} type={type} className="form-control" />
+        {touched && error && <span className="text-danger">{error} </span>}
+        <br />
+      </div>
+    );
+  };
+
+  onSubmit = (formValues) => {
+    this.props.register(formValues);
   };
 
   render() {
     if (this.props.isAuthenticated) {
       return <Redirect to="/" />;
     }
-
     return (
-    
-            <Formik
-              initialValues={{
-                username: "",
-                email: "",
-                password: "",
-              
-              }}
-              validationSchema={Yup.object({
-                username: Yup.string()
-                  .min(4, "Must be 4 characters or more")
-                  .max(15, "Must be 15 characters or less")
-                  .required("Username is required"),
+      <div className="col-md-6 md-auto mx-auto">
+        <div className="card card-body mt-5">
+          <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+            <Field
+              name="username"
+              type="text"
+              component={this.renderField}
+              label="Username"
+              validate={[required, minLength3, maxLength15]}
+              className="form-control"
+            />
 
-                password: Yup.string()
-                  .min(6, "Must be 6 characters or more")
-                  .required("password is required"),
-                  password2: Yup.string()
-                  .oneOf([Yup.ref('password'), null], "Passwords don't match")
-                  .required('Password confirm is required'),
-                email: Yup.string()
-                  .email("Invalid email address")
-                  .required("Required"),
-              })}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  this.props.register(values);
-                  setSubmitting(false);
-                }, 400);
-              }}
-            >
-              {(formik) => (
-                <div
-                  
-                  style={{ marginTop: "20px" }}
-                >
-                  
-                  <h3 className="text-center ">Signup Form</h3>
-                  <div className="col-md-6 col-lg-6   md-auto mx-auto">
-                  <div className="card card-body mt-5 shadow ">
-                    <form onSubmit={formik.handleSubmit}>
-                      <label htmlFor="username">Username</label>
-                      <input
-                        className="form-control"
-                        id="username"
-                        type="text"
-                        {...formik.getFieldProps("username")}
-                      />
-                      {formik.touched.username && formik.errors.username ? (
-                        <span span className="text-danger">
-                          {formik.errors.username}
-                        </span>
-                      ) : null}{" "}
-                      <br />
-                      <label htmlFor="email">Email</label>
-                      <input
-                        className="form-control"
-                        id="email"
-                        type="email"
-                        {...formik.getFieldProps("email")}
-                      />
-                      {formik.touched.email && formik.errors.email ? (
-                        <span span className="text-danger">
-                          {formik.errors.email}
-                        </span>
-                      ) : null}{" "}
-                      <br />
-                      <label htmlFor="password">Password</label>
-                      <input
-                        className="form-control"
-                        id="password"
-                        type="password"
-                        {...formik.getFieldProps("password")}
-                      />
-                      {formik.touched.password && formik.errors.password ? (
-                        <span className="text-danger">
-                          {formik.errors.password}
-                        </span>
-                      ) : null}{" "}
-                      <br />
-                      <label htmlFor="password2">Confirm Password</label>
-                      <input
-                        className="form-control"
-                        id="password2"
-                        type="password"
-                        {...formik.getFieldProps("password2")}
-                      />
-                      {formik.touched.password2 && formik.errors.password2 ? (
-                        <span className="text-danger">
-                          {formik.errors.password2}
-                        </span>
-                      ) : null}{" "}
-                      <br />
-                      <button className="btn btn-primary mt-2" type="submit">
-                        Submit
-                      </button>
-                    </form>
-                    <p style={{ marginTop: "1rem" }}>
-                      Already have an account? <Link to="/login">Login</Link>
-                    </p>
-                  </div>
-                </div>
-                </div>
-              )}
-            </Formik>
-        
+            <Field
+              name="email"
+              type="email"
+              component={this.renderField}
+              label="Email"
+              validate={required}
+            />
+            <Field
+              name="password"
+              type="password"
+              component={this.renderField}
+              label="Password"
+              validate={required}
+            />
+            <Field
+              name="password2"
+              type="password"
+              component={this.renderField}
+              label="Confirm Password"
+              validate={[required, passwordsMatch]}
+            />
+            <button type="submit" className="btn-sm btn-success">
+              Register
+            </button>
+          </form>
+          <p style={{ marginTop: "1rem" }}>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
+      </div>
     );
   }
 }
 
+const required = (value) => (value ? undefined : "Please fill this space");
+
+const minLength = (min) => (value) =>
+  value && value.length < min
+    ? `Must be at least ${min} characters`
+    : undefined;
+
+const minLength3 = minLength(3);
+
+const maxLength = (max) => (value) =>
+  value && value.length > max ? `Must be ${max} characters or less` : undefined;
+
+const maxLength15 = maxLength(15);
+
+const passwordsMatch = (value, allValues) =>
+  value !== allValues.password ? "Passwords do not match" : undefined;
+
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
-export default connect(mapStateToProps, { register, createMessage })(
-  SignupForm
-);
+
+RegisterForm = connect(mapStateToProps, { register })(RegisterForm);
+
+export default reduxForm({
+  form: "registerForm",
+})(RegisterForm);

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { returnError } from "./messages";
-import {stopSubmit} from 'redux-form'
-import LoginForm from "../components/accounts/Login"
+import { stopSubmit } from "redux-form";
 
 import {
   REGISTER_FAIL,
@@ -11,7 +10,7 @@ import {
   AUTH_ERROR,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
 } from "../actions/types";
 
 export const loadUser = () => (dispatch, getState) => {
@@ -62,12 +61,10 @@ export const login = ({ username, password }) => (dispatch) => {
     .catch((error) => {
       dispatch({ type: LOGIN_FAIL });
       dispatch(returnError(error.response.data, error.response.status));
-      dispatch(stopSubmit('loginForm', error.response.data));
+      dispatch(stopSubmit("loginForm", error.response.data)); // stopSubmit() method is used to pass server-side errors to our Redux Form
     });
 };
 export const logout = () => (dispatch, getState) => {
-
-  
   axios
     .post("/api/auth/logout/", null, tokenConfig(getState))
     .then((response) => {
@@ -80,7 +77,7 @@ export const logout = () => (dispatch, getState) => {
     });
 };
 
-export const register = ({username, email, password}) => (dispatch) => {
+export const register = ({ username, email, password }) => (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -101,8 +98,8 @@ export const register = ({username, email, password}) => (dispatch) => {
     });
 };
 
-
-export const tokenConfig = getState =>{
+//we can use this function as our helper function that gets and sets tokens.
+export const tokenConfig = (getState) => {
   const token = getState().auth.token;
 
   const config = {
@@ -114,6 +111,5 @@ export const tokenConfig = getState =>{
   if (token) {
     config.headers["Authorization"] = `Token ${token}`;
   }
-  return config
-
-}
+  return config;
+};

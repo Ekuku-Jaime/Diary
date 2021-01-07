@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getDiary, editDiary } from "../../actions/diary";
 import DiaryForm from "./DiaryForm";
 import _ from "lodash";
-import { Redirect } from "react-router";
+
 
 class EditDiary extends Component {
   componentDidMount() {
@@ -12,8 +12,6 @@ class EditDiary extends Component {
 
   onSubmit = (formValues) => {
     this.props.editDiary(this.props.match.params.id, formValues);
-
-    <Redirect to="/" />;
   };
   render() {
     return (

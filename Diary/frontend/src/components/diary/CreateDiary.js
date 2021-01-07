@@ -15,7 +15,7 @@ class CreateDiary extends Component {
   render() {
     return (
       <div className="md-auto mx-auto">
-        <TodoForm destroyOnUnmount={true} onSubmit={this.onSubmit} />;
+        <TodoForm destroyOnUnmount={false} onSubmit={this.onSubmit} />;
       </div>
     );
   }

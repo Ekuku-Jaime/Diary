@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 
 class DiaryForm extends Component {
@@ -7,7 +6,17 @@ class DiaryForm extends Component {
     return (
       <div className={`field ${touched && error ? "error" : ""}`}>
         <label className="control-label">{label}</label>
-        <input {...input} type={type} className="form-control" />
+        <input {...input} type={type} className="form-control" placeholder="Write the title" />
+        {touched && error && <span className="text-danger">{error} </span>}
+        <br />
+      </div>
+    );
+  };
+  renderFieldArea = ({ input, label, type, meta: { touched, error } }) => {
+    return (
+      <div className={`field ${touched && error ? "error" : ""}`}>
+        <label className="control-label">{label}</label>
+        <textarea {...input} type={type} className="form-control" placeholder="Write your diary here" rows="10" cols="20"/>
         {touched && error && <span className="text-danger">{error} </span>}
         <br />
       </div>
@@ -25,14 +34,9 @@ class DiaryForm extends Component {
 
   onSubmit = (formValues) => {
     this.props.onSubmit(formValues);
-  
   };
 
-  
   render() {
-    if (this.props.isAuthenticated) {
-      return <Redirect to="/" />;
-    }
     const btnText = `${this.props.initialValues ? "Update" : "Add"}`;
     return (
       <div className="card card-body mt-5">
@@ -49,7 +53,7 @@ class DiaryForm extends Component {
           <Field
             name="body"
             type="textarea"
-            component={this.renderField}
+            component={this.renderFieldArea}
             label="Body"
             validate={[required, minLengthBody]}
           />
@@ -76,4 +80,6 @@ const minLengthBody = (value) =>
 
 export default reduxForm({
   form: "diaryForm",
+  touchOnBlur: false,
 })(DiaryForm);
+

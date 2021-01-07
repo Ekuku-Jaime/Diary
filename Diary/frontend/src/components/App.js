@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { render } from "react-dom";
-import {HashRouter as Router, Route, Switch } from "react-router-dom"; 
+import {  Router, Route, Switch } from "react-router-dom"; 
 import history from "../components/commom/history";
 
 import GlobalStyles from "../styles/GlobalStyles";
@@ -22,7 +22,7 @@ import { loadUser } from "../actions/auth";
 import EditDiary from "./diary/EditDiary";
 
 const alertOptions = {
-  timeout: 3000,
+  timeout: 2000,
   position: "top center",
 };
 
